@@ -7,7 +7,6 @@ import {
   Typography,
   Button,
   CardBody,
-
   CardFooter,
   Tabs,
   TabsHeader,
@@ -39,11 +38,17 @@ export default function SentMailList() {
   const [user, setUser] = useState([]);
   const [search, setSearch]=useState('')
 
+
   const fetchData = async () => {
     try {
-      const response = await companyDetails();
-      const companyData = response?.data;
-      setUser(companyData);
+
+      const response = await companyDetails(search);
+      if(response?.data){
+        setUser(response.data);
+ 
+      }
+      
+ 
     } catch (err) {
       console.log(err);
     }
@@ -51,7 +56,9 @@ export default function SentMailList() {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [search]);
+
+
 
   const navigate = useNavigate();
   return (
@@ -88,7 +95,7 @@ export default function SentMailList() {
               label="Search"
               icon={<MagnifyingGlassIcon className="h-5 w-5" />}
               crossOrigin={undefined}
-              onChange={(e)=>e.target.value.length!==0?setSearch(e.target.value):setSearch('')}
+              onChange={(e)=>e.target.value!==''?setSearch(e.target.value):setSearch('')}
             />
           </div>
         </div>
@@ -114,7 +121,7 @@ export default function SentMailList() {
             </tr>
           </thead>
           <tbody>
-            {user.map(({ companyName, companyEmail, position }, index) => {
+            {user&&user.map(({ companyName, companyEmail, position }, index) => {
               const isLast = index === user.length - 1;
               const classes = isLast
                 ? "p-4"
@@ -161,16 +168,7 @@ export default function SentMailList() {
                       </Typography>
                     </div>
                   </td>
-                  {/* <td className={classes}>
-                        <div className="w-max">
-                          <Chip
-                            variant="ghost"
-                            size="sm"
-                            value={online ? "online" : "offline"}
-                            color={online ? "green" : "blue-gray"}
-                          />
-                        </div>
-                      </td> */}
+                 
                   <td className={classes}>
                     <Typography
                       variant="small"

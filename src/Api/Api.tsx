@@ -15,10 +15,9 @@ export const formSubmit = async (formData: unknown) => {
 
 
 
-export const companyDetails = async () => {
+export const companyDetails = async (search?:string) => {
     try {
-        console.log(' company userapi')
-        return await userApi.get('/mailList');
+        return await userApi.get(`/mailList?search=${search}`);
     } catch (error) {
         console.log(error);
     }
