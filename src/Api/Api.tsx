@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const userApi = axios.create({
-    baseURL: 'http://localhost:3001'
+    baseURL: 'https://mailsenter.onrender.com'
 });
 
 export const formSubmit = async (formData: unknown) => {
